@@ -11,9 +11,9 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"web_go/dao/mysql"
-	"web_go/dao/redis"
-	"web_go/logger"
+	"web_go/pkg/logger"
+	"web_go/pkg/mysql"
+	"web_go/pkg/redis"
 	"web_go/routes"
 	"web_go/settings"
 )
@@ -25,24 +25,25 @@ func main() {
 
 	//2．初始化日志
 	if err = logger.Init(settings.Cfg.LoggerConfig, settings.Cfg.Mode); err != nil {
-		fmt.Printf("init logger failed,error:%v\n", err)
+		fmt.Printf("init logger failed,error:%v", err)
 	}
 	defer zap.L().Sync()
 	zap.L().Debug("logger init success")
 
 	//3．初始化MySQL连接
 	if err = mysql.Init(settings.Cfg.MySQLConfig); err != nil {
-		fmt.Printf("init mysql failed,error:%v\n", err)
+		zap.L().Error("init mysql failed:", zap.Error(err))
 	}
 	defer mysql.Close()
 	//4．初始化Redis连接
 	if err = redis.Init(settings.Cfg.RedisConfig); err != nil {
-		fmt.Printf("init redis failed,error:%v\n", err)
+		zap.L().Error("init redis failed,error:", zap.Error(err))
 	}
 	defer redis.Close()
 
 	//5，注册路由
 	r := routes.Setup(settings.Cfg.Mode)
+
 	// 6．启动服务(优雅关机)
 	srv := http.Server{
 		Addr:    fmt.Sprintf(":%d", viper.GetInt("port")),

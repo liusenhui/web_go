@@ -18,15 +18,20 @@ func Init(cfg *settings.MySQLConfig) (err error) {
 
 	db, err = gorm.Open("mysql", dbConfig)
 	if err != nil {
-		zap.L().Error("grom init failed %v\n", zap.Error(err))
+		return err
 	}
+	zap.L().Info("mysql init success")
 
 	//GORM定义mysql最大连接数
 	sqlDB := db.DB()                        //设置数据库连接池参数
 	sqlDB.SetMaxOpenConns(cfg.MaxOpenConns) //设置数据库连接池最大连接数
 	sqlDB.SetMaxIdleConns(cfg.MaxIdleConns) //连接池最大允许的空闲连接数，如果没有sql任务需要执行的连接数大于20，超过的连接会被连接池关闭。
 
-	return
+	return nil
+}
+
+func GetDB() *gorm.DB {
+	return db
 }
 
 func getMysqlConfig(cfg *settings.MySQLConfig) string {
@@ -39,8 +44,7 @@ func getMysqlConfig(cfg *settings.MySQLConfig) string {
 func Close() (err error) {
 	err = db.Close()
 	if err != nil {
-		//fmt.Printf("grom close failed error:%v\n", err)
-		zap.L().Error("grom close failed error:%v\n", zap.Error(err))
+		zap.L().Error("gorm close failed error:%v", zap.Error(err))
 	}
 	return
 }

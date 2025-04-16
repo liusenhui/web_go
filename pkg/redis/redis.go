@@ -3,6 +3,7 @@ package redis
 import (
 	"fmt"
 	"github.com/go-redis/redis"
+	"go.uber.org/zap"
 	"web_go/settings"
 )
 
@@ -24,7 +25,8 @@ func Init(cfg *settings.RedisConfig) (err error) {
 	if err != nil {
 		return err
 	}
-	return
+	zap.L().Info("redis init success")
+	return nil
 }
 
 func Close() {

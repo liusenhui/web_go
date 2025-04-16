@@ -16,6 +16,7 @@ type Config struct {
 	*LoggerConfig `mapstructure:"log"`
 	*MySQLConfig  `mapstructure:"mysql"`
 	*RedisConfig  `mapstructure:"redis"`
+	*JwtConfig    `mapstructure:"jwt"`
 }
 
 type MySQLConfig struct {
@@ -43,6 +44,10 @@ type LoggerConfig struct {
 	MaxSize    int    `mapstructure:"max_size"`
 	MaxAge     int    `mapstructure:"max_age"`
 	MaxBackups int    `mapstructure:"max_backups"`
+}
+
+type JwtConfig struct {
+	Secret string `mapstructure:"secret"`
 }
 
 var Cfg = new(Config)

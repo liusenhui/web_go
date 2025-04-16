@@ -6,10 +6,12 @@ require (
 	github.com/fsnotify/fsnotify v1.8.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/jinzhu/gorm v1.9.16
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.20.1
 	go.uber.org/zap v1.27.0
+	golang.org/x/crypto v0.36.0
 )
 
 require (
@@ -47,7 +49,6 @@ require (
 	github.com/ugorji/go/codec v1.2.12 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/crypto v0.36.0 // indirect
 	golang.org/x/net v0.37.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.23.0 // indirect
